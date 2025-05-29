@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36121.58 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyPointSocial.Api", "SkyPointSocial.Api\SkyPointSocial.Api.csproj", "{2EAD8A39-3D8D-4965-B012-218883804220}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyPointSocial.Core", "SkyPointSocial.Core\SkyPointSocial.Core.csproj", "{FB49D53D-7166-44A4-9F35-2F0EF9FD7793}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyPointSocial.Application", "SkyPointSocial.Application\SkyPointSocial.Application.csproj", "{BD0BE468-5BBC-409B-901E-17EF1DFCCC1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyPointSocial.Tests", "SkyPointSocial.Tests\SkyPointSocial.Tests.csproj", "{3AB61CD9-3F0E-40B8-8AC4-09501D08F66B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyPointSocial.IntegrationTests", "SkyPointSocial.IntegrationTests\SkyPointSocial.IntegrationTests.csproj", "{A7F24E11-9C2A-4F58-91E3-B02C6D5F83DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2EAD8A39-3D8D-4965-B012-218883804220}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EAD8A39-3D8D-4965-B012-218883804220}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EAD8A39-3D8D-4965-B012-218883804220}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EAD8A39-3D8D-4965-B012-218883804220}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB49D53D-7166-44A4-9F35-2F0EF9FD7793}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB49D53D-7166-44A4-9F35-2F0EF9FD7793}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB49D53D-7166-44A4-9F35-2F0EF9FD7793}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB49D53D-7166-44A4-9F35-2F0EF9FD7793}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD0BE468-5BBC-409B-901E-17EF1DFCCC1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD0BE468-5BBC-409B-901E-17EF1DFCCC1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD0BE468-5BBC-409B-901E-17EF1DFCCC1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD0BE468-5BBC-409B-901E-17EF1DFCCC1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AB61CD9-3F0E-40B8-8AC4-09501D08F66B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AB61CD9-3F0E-40B8-8AC4-09501D08F66B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AB61CD9-3F0E-40B8-8AC4-09501D08F66B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AB61CD9-3F0E-40B8-8AC4-09501D08F66B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7F24E11-9C2A-4F58-91E3-B02C6D5F83DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7F24E11-9C2A-4F58-91E3-B02C6D5F83DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7F24E11-9C2A-4F58-91E3-B02C6D5F83DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7F24E11-9C2A-4F58-91E3-B02C6D5F83DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {724C1647-278B-42AF-9D18-E8C02E6E2AF0}
+	EndGlobalSection
+EndGlobal
