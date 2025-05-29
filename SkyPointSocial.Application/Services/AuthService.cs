@@ -12,6 +12,7 @@ using SkyPointSocial.Core.ClientModels.User;
 using SkyPointSocial.Core.Entities;
 using SkyPointSocial.Core.Interfaces;
 using SkyPointSocial.Application.Data;
+using Google.Apis.Auth;
 
 namespace SkyPointSocial.Application.Services
 {
@@ -325,31 +326,56 @@ namespace SkyPointSocial.Application.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-
+        
         /// <summary>
         /// Validate OAuth token with provider and get user info
         /// </summary>
         private async Task<OAuthUserInfo> ValidateOAuthToken(OAuthLoginClientModel oAuthLoginModel)
         {
-            // TODO: Implement actual OAuth validation
-            // This is a placeholder for development
-            
-            await Task.CompletedTask;
-            
-            // In production, validate the token with the OAuth provider
-            // and return real user information
-            
-            // For now, return mock data for testing
-            var email = $"test_{Guid.NewGuid().ToString().Substring(0, 8)}@example.com";
-            
-            return new OAuthUserInfo
+            if (oAuthLoginModel.Provider == "Google")
             {
-                Email = email,
-                FirstName = "Test",
-                LastName = "User",
-                ProviderId = Guid.NewGuid().ToString(),
-                ProfilePictureUrl = null
-            };
+                return await ValidateGoogleToken(oAuthLoginModel.AccessToken);
+            }
+            else if (oAuthLoginModel.Provider == "Microsoft")
+            {
+                // For now, throw not implemented
+                throw new NotImplementedException("Microsoft OAuth validation not implemented yet");
+            }
+            
+            throw new ArgumentException("Invalid OAuth provider");
+        }
+
+        /// <summary>
+        /// Validate Google OAuth token and extract user information
+        /// </summary>
+        private async Task<OAuthUserInfo> ValidateGoogleToken(string idToken)
+        {
+            try
+            {
+                var settings = new GoogleJsonWebSignature.ValidationSettings()
+                {
+                    Audience = new[] { _configuration["OAuth:Google:ClientId"] }
+                };
+
+                var payload = await GoogleJsonWebSignature.ValidateAsync(idToken, settings);
+
+                return new OAuthUserInfo
+                {
+                    Email = payload.Email,
+                    FirstName = payload.GivenName ?? string.Empty,
+                    LastName = payload.FamilyName ?? string.Empty,
+                    ProviderId = payload.Subject,
+                    ProfilePictureUrl = payload.Picture
+                };
+            }
+            catch (InvalidJwtException ex)
+            {
+                throw new UnauthorizedAccessException("Invalid Google token: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Failed to validate Google token: " + ex.Message);
+            }
         }
 
         /// <summary>
@@ -361,10 +387,10 @@ namespace SkyPointSocial.Application.Services
                 throw new ArgumentException("Invalid email format");
 
             var baseUsername = email.Split('@')[0].ToLower();
-            
+
             // Remove special characters
             baseUsername = System.Text.RegularExpressions.Regex.Replace(baseUsername, @"[^a-zA-Z0-9]", "");
-            
+
             if (string.IsNullOrWhiteSpace(baseUsername))
                 baseUsername = "user";
 

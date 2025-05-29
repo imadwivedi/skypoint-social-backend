@@ -2,18 +2,6 @@
 
 A social media platform backend built with ASP.NET Core that enables users to create posts, vote, comment, and follow other users with a personalized feed.
 
-## 📋 Table of Contents
-
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Prerequisites](#prerequisites)
-- [Setup Instructions](#setup-instructions)
-- [Environment Configuration](#environment-configuration)
-- [Database Setup](#database-setup)
-- [Running the Application](#running-the-application)
-- [API Documentation](#api-documentation)
-- [Testing](#testing)
-- [Architecture](#architecture)
 
 ## ✨ Features
 
@@ -55,7 +43,7 @@ A social media platform backend built with ASP.NET Core that enables users to cr
 1. Clone the Repository
 2. Install Dependencies
     ```bash
-        dotnet restore
+    dotnet restore
     ```
 3. Environment Configuration
 Create an `appsettings.Development.json` file in the `SkyPointSocial.API` project:
@@ -88,16 +76,15 @@ Create an `appsettings.Development.json` file in the `SkyPointSocial.API` projec
   }
 }
 ```
-## 🗄 Database Setup
+## 🗄 Local Setup
 
-1. Create PostgreSQL Database
-
-```sql
-CREATE DATABASE "SkyPointSocialDb";
-```
-2. Run Migrations
+1. Create PostgreSQL docker container
 ```bash
-dotnet ef database update
+docker-compose up -d
+```
+2. Run Application
+```bash
+dotnet run --project SkyPointSocial.API/SkyPointSocial.API.csproj
 ```
 # SkyPointSocial API
 

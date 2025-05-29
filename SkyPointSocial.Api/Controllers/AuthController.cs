@@ -96,9 +96,21 @@ namespace SkyPointSocial.API.Controllers
                 var result = await _authService.OAuthLoginAsync(model);
                 return Ok(result);
             }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(new { error = ex.Message });
+            }
             catch (UnauthorizedAccessException ex)
             {
                 return Unauthorized(new { error = ex.Message });
+            }
+            catch (NotImplementedException ex)
+            {
+                return BadRequest(new { error = ex.Message });
             }
             catch (Exception ex)
             {
