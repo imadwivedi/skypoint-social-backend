@@ -91,7 +91,6 @@ dotnet run --project SkyPointSocial.API/SkyPointSocial.API.csproj
 
 ### Development Mode
 - **HTTP**: [http://localhost:5159](http://localhost:5159)  
-- **Swagger UI**: [http://localhost:5159/swagger](http://localhost:5159/swagger)
 
 ### Production Mode
 Set environment variables and production configurations accordingly.
@@ -101,7 +100,7 @@ Set environment variables and production configurations accordingly.
 ## 📚 API Documentation
 
 ### Swagger / OpenAPI
-- **Swagger UI**: [http://localhost:5159/swagger](http://localhost:5159/swagger)  
+- **Swagger UI**: [http://localhost:5159](http://localhost:5159/)  
 - **OpenAPI Spec**: [http://localhost:5159/swagger/v1/swagger.json](http://localhost:5159/swagger/v1/swagger.json)
 
 ---
