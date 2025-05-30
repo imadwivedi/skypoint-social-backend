@@ -61,8 +61,6 @@ namespace SkyPointSocial.Core.Entities
         /// </summary>
         public DateTime UpdatedAt { get; set; }
 
-        // Navigation properties
-
         /// <summary>
         /// Gets or sets the user who created this post.
         /// </summary>

@@ -69,10 +69,6 @@ Create an `appsettings.Development.json` file in the `SkyPointSocial.API` projec
       "ClientId": "your-google-client-id",
       "ClientSecret": "your-google-client-secret"
     },
-    "Microsoft": {
-      "ClientId": "your-microsoft-client-id",
-      "ClientSecret": "your-microsoft-client-secret"
-    }
   }
 }
 ```

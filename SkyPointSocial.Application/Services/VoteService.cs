@@ -29,42 +29,53 @@ namespace SkyPointSocial.Application.Services
         /// </summary>
         public async Task VoteAsync(Guid userId, CreateVoteClientModel createVoteModel)
         {
-            // Validate vote type
             if (createVoteModel.VoteType != 1 && createVoteModel.VoteType != -1)
-                throw new ArgumentException("Vote type must be 1 (upvote) or -1 (downvote)");
+            {
+                throw new ArgumentException("Vote type must be 1 (upvote) or -1 (downvote).");
+            }
 
-            // Check if post exists
             var post = await _context.Posts.FindAsync(createVoteModel.PostId);
             if (post == null)
-                throw new InvalidOperationException("Post not found");
+            {
+                throw new InvalidOperationException("Post not found.");
+            }
 
-            // Check for existing vote
             var existingVote = await _context.Votes
                 .FirstOrDefaultAsync(v => v.UserId == userId && v.PostId == createVoteModel.PostId);
 
             if (existingVote != null)
             {
-                // Update existing vote
-                var oldVoteType = (int)existingVote.Type;
-                existingVote.Type = createVoteModel.VoteType == 1 ? VoteType.Upvote : VoteType.Downvote;
-                
-                // Update post score (remove old vote, add new vote)
-                post.Score = post.Score - oldVoteType + createVoteModel.VoteType;
+                // User has an existing vote on this post
+                var oldVoteTypeNumeric = (int)existingVote.Type; // Get the numeric value of the existing vote (e.g., 1 or -1)
+
+                if (oldVoteTypeNumeric == createVoteModel.VoteType)
+                {
+                    // User is clicking the same vote button again (e.g., upvoting an already upvoted post)
+                    // This is an "unvote" action. Remove the existing vote.
+                    _context.Votes.Remove(existingVote);
+                    post.Score -= oldVoteTypeNumeric; // Revert the score change from the removed vote
+                }
+                else
+                {
+                    // User is changing their vote (e.g., from upvote to downvote, or vice-versa)
+                    existingVote.Type = createVoteModel.VoteType == 1 ? VoteType.Upvote : VoteType.Downvote;
+                    // Adjust score: subtract the old vote's effect, then add the new vote's effect
+                    post.Score = post.Score - oldVoteTypeNumeric + createVoteModel.VoteType;
+                }
             }
             else
             {
-                // Create new vote using the constructor
-                var voteType = createVoteModel.VoteType == 1 ? VoteType.Upvote : VoteType.Downvote;
-                var vote = new Vote(userId, createVoteModel.PostId, voteType);
+                // No existing vote from this user on this post. Create a new vote.
+                var newVoteTypeEnum = createVoteModel.VoteType == 1 ? VoteType.Upvote : VoteType.Downvote;
+                var newVote = new Vote(userId, createVoteModel.PostId, newVoteTypeEnum); // Assuming Vote constructor
 
-                _context.Votes.Add(vote);
-
-                // Update post score
-                post.Score += createVoteModel.VoteType;
+                _context.Votes.Add(newVote);
+                post.Score += createVoteModel.VoteType; // Add the new vote's effect to the score
             }
 
             post.UpdatedAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
+
         }
 
         /// <summary>

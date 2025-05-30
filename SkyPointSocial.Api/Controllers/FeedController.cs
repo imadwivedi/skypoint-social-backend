@@ -8,6 +8,9 @@ namespace SkyPointSocial.API.Controllers
 {
     [ApiController]
     [Route("api")]
+    [ProducesResponseType(typeof(FeedResponseClientModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public class FeedController : ControllerBase
     {
         private readonly IFeedService _feedService;

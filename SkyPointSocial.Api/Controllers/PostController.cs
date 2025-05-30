@@ -8,6 +8,7 @@ namespace SkyPointSocial.API.Controllers
 {
     [ApiController]
     [Route("api")]
+    [ProducesResponseType(typeof(PostClientModel), StatusCodes.Status200OK)]
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService;
@@ -45,6 +46,23 @@ namespace SkyPointSocial.API.Controllers
                 return StatusCode(500, new { error = "An error occurred while creating the post" });
             }
         }
+
+        [HttpGet("posts/user/{userId:guid}")]
+        [Authorize]
+        public async Task<IActionResult> GetUserPosts(Guid userId, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        {
+            try
+            {
+                var posts = await _postService.GetByUserIdAsync(userId, GetCurrentUserId(), page, pageSize);
+                return Ok(posts);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting posts for user {UserId}", userId);
+                return StatusCode(500, new { error = "An error occurred while fetching user posts" });
+            }
+        }
+
 
         private Guid GetCurrentUserId()
         {

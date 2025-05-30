@@ -8,6 +8,7 @@ namespace SkyPointSocial.API.Controllers
 {
     [ApiController]
     [Route("api")]
+    [ProducesResponseType(typeof(CommentClientModel), StatusCodes.Status200OK)]
     public class CommentController : ControllerBase
     {
         private readonly ICommentService _commentService;
@@ -46,6 +47,22 @@ namespace SkyPointSocial.API.Controllers
             {
                 _logger.LogError(ex, "Error creating comment");
                 return StatusCode(500, new { error = "An error occurred while creating comment" });
+            }
+        }
+
+        [HttpGet("comment/{postId:guid}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetComments(Guid postId)
+        {
+            try
+            {
+                var comments = await _commentService.GetByPostIdAsync(postId);
+                return Ok(comments);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting comments for post {PostId}", postId);
+                return StatusCode(500, new { error = "An error occurred while fetching comments" });
             }
         }
 

@@ -51,6 +51,38 @@ namespace SkyPointSocial.API.Controllers
             }
         }
 
+        [HttpGet("follow/status/{userId:guid}")]
+        [Authorize]
+        public async Task<IActionResult> GetFollowStatus(Guid userId)
+        {
+            try
+            {
+                var currentUserId = GetCurrentUserId();
+                
+                if (currentUserId == userId)
+                {
+                    return Ok(new 
+                    { 
+                        isFollowing = false, 
+                        canFollow = false,
+                        message = "Cannot follow yourself" 
+                    });
+                }
+
+                var isFollowing = await _followService.IsFollowingAsync(currentUserId, userId);
+
+                return Ok(new 
+                { 
+                    isFollowing,
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error checking follow status for user {UserId}", userId);
+                return StatusCode(500, new { error = "An error occurred while checking follow status" });
+            }
+        }
+
         private Guid GetCurrentUserId()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
