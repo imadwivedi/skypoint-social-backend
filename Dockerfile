@@ -6,23 +6,22 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy solution file and project files first to leverage Docker layer caching
-COPY SkyPointSocial.sln .
+# Copy solution and project files
+COPY SkyPointSocial.sln ./
 COPY SkyPointSocial.Api/SkyPointSocial.Api.csproj SkyPointSocial.Api/
 COPY SkyPointSocial.Application/SkyPointSocial.Application.csproj SkyPointSocial.Application/
 COPY SkyPointSocial.Core/SkyPointSocial.Core.csproj SkyPointSocial.Core/
+
+# Restore dependencies
 RUN dotnet restore SkyPointSocial.sln
 
+# Copy everything else and publish
 COPY . .
-
-# Build and publish the API project
 WORKDIR /src/SkyPointSocial.Api
+RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
 
-# Publish the API project
-RUN dotnet publish SkyPointSocial.Api.csproj -c Release -o /app/publish /p:UseAppHost=false
-
-# Final stage/image
+# Final runtime image
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "SkyPointSocial.Api.dll"]
