@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyPointSocial.Core", "SkyP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyPointSocial.Application", "SkyPointSocial.Application\SkyPointSocial.Application.csproj", "{BD0BE468-5BBC-409B-901E-17EF1DFCCC1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyPointSocial.Tests", "SkyPointSocial.Tests\SkyPointSocial.Tests.csproj", "{3AB61CD9-3F0E-40B8-8AC4-09501D08F66B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyPointSocial.IntegrationTests", "SkyPointSocial.IntegrationTests\SkyPointSocial.IntegrationTests.csproj", "{A7F24E11-9C2A-4F58-91E3-B02C6D5F83DA}"
 EndProject
 Global
@@ -31,10 +29,6 @@ Global
 		{BD0BE468-5BBC-409B-901E-17EF1DFCCC1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD0BE468-5BBC-409B-901E-17EF1DFCCC1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD0BE468-5BBC-409B-901E-17EF1DFCCC1B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3AB61CD9-3F0E-40B8-8AC4-09501D08F66B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3AB61CD9-3F0E-40B8-8AC4-09501D08F66B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3AB61CD9-3F0E-40B8-8AC4-09501D08F66B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3AB61CD9-3F0E-40B8-8AC4-09501D08F66B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A7F24E11-9C2A-4F58-91E3-B02C6D5F83DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A7F24E11-9C2A-4F58-91E3-B02C6D5F83DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7F24E11-9C2A-4F58-91E3-B02C6D5F83DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
