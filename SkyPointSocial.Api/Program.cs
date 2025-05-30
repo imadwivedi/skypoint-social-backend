@@ -9,6 +9,13 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+Console.WriteLine("--- RENDER DEBUG: All Loaded Configuration Values ---");
+foreach (var configEntry in builder.Configuration.AsEnumerable().OrderBy(c => c.Key))
+{
+    Console.WriteLine($"Config Key: '{configEntry.Key}', Value: '{configEntry.Value}'");
+}
+Console.WriteLine("--- END RENDER DEBUG: All Loaded Configuration Values ---");
+
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -48,6 +55,13 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+
+var connectionStringForDebug = builder.Configuration.GetConnectionString("DefaultConnection");
+Console.WriteLine($"--- RENDER DEBUG Raw ConnectionString: '{connectionStringForDebug}' ---");
+if (string.IsNullOrEmpty(connectionStringForDebug))
+{
+    Console.WriteLine("--- RENDER FATAL ERROR: ConnectionString 'DefaultConnection' is NULL or EMPTY. ---");
+}
 
 // Configure Database
 builder.Services.AddDbContext<AppDbContext>(options =>
