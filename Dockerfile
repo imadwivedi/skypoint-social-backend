@@ -11,6 +11,7 @@ COPY SkyPointSocial.sln ./
 COPY SkyPointSocial.Api/SkyPointSocial.Api.csproj SkyPointSocial.Api/
 COPY SkyPointSocial.Application/SkyPointSocial.Application.csproj SkyPointSocial.Application/
 COPY SkyPointSocial.Core/SkyPointSocial.Core.csproj SkyPointSocial.Core/
+COPY SkyPointSocial.IntegrationTests/SkyPointSocial.IntegrationTests.csproj SkyPointSocial.IntegrationTests/
 
 # Restore dependencies
 RUN dotnet restore SkyPointSocial.sln
