@@ -261,11 +261,6 @@ namespace SkyPointSocial.Application.Services
         /// </summary>
         private string HashPassword(string password)
         {
-            // Simple hash for now - in production use BCrypt.Net-Next package
-            // Install-Package BCrypt.Net-Next
-            // return BCrypt.Net.BCrypt.HashPassword(password);
-            
-            // Temporary implementation using SHA256
             using (var sha256 = System.Security.Cryptography.SHA256.Create())
             {
                 var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password + "SkyPointSalt"));
@@ -281,9 +276,6 @@ namespace SkyPointSocial.Application.Services
             if (string.IsNullOrEmpty(hash))
                 return false;
 
-            // For BCrypt use: return BCrypt.Net.BCrypt.Verify(password, hash);
-            
-            // Temporary implementation
             var passwordHash = HashPassword(password);
             return passwordHash == hash;
         }
