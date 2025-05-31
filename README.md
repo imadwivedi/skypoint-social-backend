@@ -138,10 +138,7 @@ All request and response schemas are available in Swagger UI.
 ---
 
 ## 🧪 Testing
-
-- ✅ Run Unit Tests  
 - ✅ Run Integration Tests  
-- ✅ Run All Tests  
 
 ---
 
@@ -153,8 +150,16 @@ Follows **Clean Architecture** principles:
 - **Repository Pattern** – Abstracts data access logic  
 - **Service Layer** – Encapsulates business logic  
 - **Dependency Injection** – Promotes loose coupling  
-- **JWT Authentication** – Stateless token-based authentication  
-- **Pessimistic Locking** – Uses PostgreSQL row-level locking for concurrency
+- **JWT Authentication** – Stateless token-based authentication
+
+### Potential Enhancements
+- **Continuation Token Pagination**: Implement continuation token-based pagination for feeds for more efficient and scalable data fetching, especially with large datasets.
+- **Custom Middleware**: Introduce dedicated middleware for:
+    - **Request/Response Logging**: For detailed diagnostics and monitoring.
+    - **Global Exception Handling**: To centralize error management and provide consistent error responses.
+- **API Versioning**: Implement controller/API versioning (e.g., via URL path, query string, or headers) to manage changes and ensure backward compatibility as the API evolves.
+- **Optimistic/Pessimistic Concurrency Control**: For operations like voting or updating shared resources, implement robust concurrency handling (e.g., using row-versioning for optimistic concurrency, or `SELECT FOR UPDATE` for pessimistic locking where appropriate, though the latter should be used judiciously due to potential performance impacts).
+
 
 ---
 
@@ -175,7 +180,7 @@ Follows **Clean Architecture** principles:
 #### ❌ Database Connection Failed
 - Ensure PostgreSQL is running  
 - Check connection string in `appsettings.json`  
-- Verify database exists  
+- Verify database exists in docker 
 
 #### ❌ Migration Errors
 - Delete and recreate migrations  
@@ -185,13 +190,6 @@ Follows **Clean Architecture** principles:
 - Secret key should be at least **32 characters**  
 - Validate token expiration settings  
 
----
-
-## 📝 License
-
-This project is licensed under the **MIT License**.
-
----
 
 ## 👥 Contributing
 

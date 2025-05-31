@@ -129,6 +129,7 @@ namespace SkyPointSocial.API.Controllers
         }
 
         [HttpGet("users/{userId:guid}")]
+        [Authorize]
         public async Task<IActionResult> GetUser(Guid userId)
         {
             try
