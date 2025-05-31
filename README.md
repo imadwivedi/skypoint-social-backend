@@ -82,12 +82,6 @@ docker-compose up -d
 ```bash
 dotnet run --project SkyPointSocial.API/SkyPointSocial.API.csproj
 ```
-# SkyPointSocial API
-
-## ▶️ Running the Application
-````bash
-dotnet run --project SkyPointSocial.API/SkyPointSocial.API.csproj
-````
 
 ### Development Mode
 - **HTTP**: [http://localhost:5159](http://localhost:5159)  
@@ -105,40 +99,65 @@ Set environment variables and production configurations accordingly.
 
 ---
 
-## 📌 API Endpoints
+## 📘 API Endpoints
 
-### 🔐 Authentication
-- `POST /api/signup` – Register a new user  
-- `POST /api/login` – Login with email and password  
-- `POST /api/logout` – Logout current user  
-- `POST /api/oauth/login` – Login with OAuth provider  
+---
 
-### 📝 Post Management
-- `POST /api/post` – Create a new post  
-- `POST /api/vote` – Vote on a post (upvote/downvote)  
-- `POST /api/comment/{postId}` – Comment on a post  
+### 🔐 Authentication (`/auth`)
 
-### 👥 Follow Management
-- `POST /api/follow` – Follow/unfollow a user  
-- `GET /api/feed` – Get personalized feed with pagination  
+- **POST** `/signup` – Register a new user.  
+- **POST** `/login` – Login with email and password.  
+- **POST** `/logout` – Logout current user (requires authentication).  
+- **POST** `/oauth/login` – Login or register with an OAuth provider (e.g., Google).
+**GET** `/{userId:guid}` – Get public profile information for a specific user. (requires authentication using Google OAuth).
 
-### 🧪 Testing Endpoints
-- `GET /api/Test/test-connection` – Test database connection  
-- `POST /api/Test/create-user` – Create test user  
-- `GET /api/Test/get-user/{userId}` – Get user details  
+---
 
+### 📝 Posts (`/post`)
+
+- **POST** `/` – Create a new post (requires authentication).  
+- **GET** `/user/{userId:guid}` – Get details of a specific post by an user. (requires authentication).
+
+---
+
+### 💬 Comments (`/comment`)
+
+- **POST** `/{postId:guid}` – Add a comment to a specific post (requires authentication).  
+- **GET** `/{postId:guid}}` – Get all comments for a specific post (requires authentication).
+
+---
+
+## 👍 Votes (`/vote`)
+
+- **POST** `/` – Cast a vote (upvote/downvote) on a post (requires authentication).  
+
+---
+
+### 🧑‍🤝‍🧑 Follows (`/follow`)
+
+- **POST** `/` – Follow or unfollow a user (requires authentication).  
+- **GET** `/status/{userId:guid}` – Get follow status of the authenticated user (requires authentication). 
+
+---
+
+### 📰 Feed (`/feed`)
+
+- **GET** `/` – Get the personalized news feed for the authenticated user (requires authentication).  
+  Supports pagination (e.g., `?page=1&pageSize=10`).
+  
 ---
 
 ## 🧾 Request/Response Models
 
-All request and response schemas are available in Swagger UI.  
+All request and response schemas are available in Swagger UI. 
+
 **Authentication Scheme**:  
 - `Bearer Authentication` — JWT tokens must be included in the `Authorization` header.
 
 ---
 
 ## 🧪 Testing
-- ✅ Run Integration Tests  
+- ✅ Run Integration Tests. All APIs are covered by integration tests using Postres docker image,  xUnit and FluentAssertions.
 
 ---
 

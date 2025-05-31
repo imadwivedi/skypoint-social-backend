@@ -51,7 +51,7 @@ namespace SkyPointSocial.API.Controllers
         }
 
         [HttpGet("comment/{postId:guid}")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> GetComments(Guid postId)
         {
             try
