@@ -69,5 +69,16 @@ namespace SkyPointSocial.Core.Interfaces
         /// <param name="pageSize">Items per page</param>
         /// <returns>List of trending posts</returns>
         Task<List<PostClientModel>> GetTrendingAsync(Guid? currentUserId = null, int page = 1, int pageSize = 20);
+
+        /// <summary>
+        /// Search posts with flexible filtering and extensible criteria
+        /// - Supports text search in post content
+        /// - Extensible for future search enhancements
+        /// - Returns optimized search results with pagination
+        /// </summary>
+        /// <param name="searchRequest">Search parameters and filters</param>
+        /// <param name="currentUserId">Current user ID for personalization</param>
+        /// <returns>Paginated search results</returns>
+        Task<PostSearchResultClientModel> SearchAsync(PostSearchRequestClientModel searchRequest, Guid? currentUserId = null);
     }
 }
