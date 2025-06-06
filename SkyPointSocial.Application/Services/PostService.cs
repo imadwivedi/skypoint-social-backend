@@ -280,7 +280,8 @@ namespace SkyPointSocial.Application.Services
             return new PostSearchResultClientModel
             {
                 Posts = searchResults,
-                TotalCount = totalCount
+                TotalCount = totalCount,
+                HasMore = (page * pageSize) < totalCount
             };
         }
 

@@ -20,6 +20,6 @@ namespace SkyPointSocial.Core.ClientModels.Post
         /// <summary>
         /// Indicates if there are more posts available for pagination
         /// </summary>
-        bool HasMore { get; set; }
+        public bool HasMore { get; set; }
     }
 }
