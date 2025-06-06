@@ -63,6 +63,34 @@ namespace SkyPointSocial.API.Controllers
             }
         }
 
+        [HttpGet("posts/search")]
+        [Authorize]
+        [ProducesResponseType(typeof(PostSearchResultClientModel), StatusCodes.Status200OK)]
+        public async Task<IActionResult> SearchPosts([FromQuery] string? query, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        {
+            try
+            {
+                var searchRequest = new PostSearchRequestClientModel
+                {
+                    Query = query ?? string.Empty,
+                    Page = page,
+                    PageSize = pageSize
+                };
+
+                var searchResults = await _postService.SearchAsync(searchRequest, GetCurrentUserId());
+                return Ok(searchResults);
+            }
+            catch (ArgumentException ex)
+            {
+                _logger.LogWarning(ex, "Invalid search parameters");
+                return BadRequest(new { error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error searching posts with query: {Query}", query);
+                return StatusCode(500, new { error = "An error occurred while searching posts" });
+            }
+        }
 
         private Guid GetCurrentUserId()
         {

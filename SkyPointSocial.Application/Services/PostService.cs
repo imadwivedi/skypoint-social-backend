@@ -209,22 +209,80 @@ namespace SkyPointSocial.Application.Services
 
             foreach (var post in posts)
             {
-                var clientModel = MapToClientModel(post);
+                var postClientModel = MapToClientModel(post);
 
                 if (currentUserId.HasValue)
                 {
-                    clientModel.UserVote = await _voteService.GetUserVoteAsync(currentUserId.Value, post.Id);
-                    
-                    if (post.UserId != currentUserId.Value)
-                    {
-                        clientModel.User.IsFollowing = await _followService.IsFollowingAsync(currentUserId.Value, post.UserId);
-                    }
+                    postClientModel.UserVote = await _voteService.GetUserVoteAsync(currentUserId.Value, post.Id);
                 }
 
-                clientModels.Add(clientModel);
+                clientModels.Add(postClientModel);
+            }
+            return clientModels;
+        }
+
+        /// <summary>
+        /// Search posts with flexible filtering and extensible criteria
+        /// - Supports text search in post content
+        /// - Extensible for future search enhancements
+        /// - Returns optimized search results with pagination
+        /// </summary>
+        public async Task<PostSearchResultClientModel> SearchAsync(PostSearchRequestClientModel searchRequest, Guid? currentUserId = null)
+        {
+            if (searchRequest == null)
+                throw new ArgumentNullException(nameof(searchRequest));
+
+            var page = Math.Max(1, searchRequest.Page);
+            var pageSize = Math.Clamp(searchRequest.PageSize, 1, 100);
+            var skip = (page - 1) * pageSize;
+
+            var query = _context.Posts
+                .Include(p => p.User)
+                .Include(p => p.Comments)
+                .AsQueryable();
+
+            // Apply text search filter
+            if (!string.IsNullOrWhiteSpace(searchRequest.Query))
+            {
+                var searchTerm = searchRequest.Query.Trim().ToLower();
+                query = query.Where(p => p.Content.ToLower().Contains(searchTerm));
             }
 
-            return clientModels;
+            var totalCount = await query.CountAsync();
+            query = query.OrderByDescending(p => p.Score)
+                         .ThenByDescending(p => p.CreatedAt);
+
+            // Apply pagination
+            var posts = await query
+                .Skip(skip)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // Map to search result models
+            var searchResults = posts.Select(post => new PostSearchItemClientModel
+            {
+                Id = post.Id,
+                Content = post.Content,
+                Score = post.Score,
+                CommentCount = post.Comments?.Count ?? 0,
+                CreatedAt = post.CreatedAt,
+                TimeAgo = _timeService.GetTimeAgo(post.CreatedAt),
+                User = new PostSearchUserClientModel
+                {
+                    Id = post.User.Id,
+                    Username = post.User.Username,
+                    FirstName = post.User.FirstName,
+                    LastName = post.User.LastName,
+                    ProfilePictureUrl = post.User.ProfilePictureUrl ?? string.Empty
+                }
+            }).ToList();
+
+            return new PostSearchResultClientModel
+            {
+                Posts = searchResults,
+                TotalCount = totalCount,
+                HasMore = (page * pageSize) < totalCount
+            };
         }
 
         /// <summary>
